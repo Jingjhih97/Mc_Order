@@ -230,6 +230,7 @@ BEGIN
 END;
 GO
 
+
 -- 3. 測試資料與操作 -----------------------------------------
 
 -- 插入商品
@@ -241,11 +242,11 @@ VALUES
 (N'辣味四盎司牛肉堡', 1, 92, 60);
 
 --1 顧客登入
-EXEC Order_login @CustomerID = 'D25887';
+EXEC Order_login @CustomerID = 'Y69';
 
 --2 建立訂單（外帶）
 DECLARE @OrderID INT;
-EXEC Order_place @CustomerID = 'D25887', @PlaceType = 0, @NewOrderID = @OrderID OUTPUT;
+EXEC Order_place @CustomerID = 'Y69', @PlaceType = 0, @NewOrderID = @OrderID OUTPUT;
 
 --3 插入優惠券
 DELETE FROM Coupons WHERE CouponCode = 'MAY50';
@@ -253,22 +254,22 @@ INSERT INTO Coupons (CouponCode, DiscountAmount, ExpiryDate)
 VALUES ('MAY50', 50, GETDATE() + 1);
 
 --4 使用優惠券（商品 ID 1）
-EXEC Order_coupon @CustomerID = 'D25887', @OrderID = @OrderID, @CouponCode = 'MAY50', @ProductID = 1, @Quantity = 1;
+EXEC Order_coupon @CustomerID = 'Y69', @OrderID = @OrderID, @CouponCode = 'MAY50', @ProductID = 1, @Quantity = 1;
 
 --5 套餐（辣味雙層四盎司牛肉堡 ID = 2）
-EXEC Order_set @CustomerID = 'D25887', @OrderID = @OrderID, @ProductID = 2, @Quantity = 1, @IsSet = 1;
+EXEC Order_set @CustomerID = 'Y69', @OrderID = @OrderID, @ProductID = 2, @Quantity = 1, @IsSet = 1;
 
 --6 客製化（去酸黃瓜，商品 ID = 1）
-EXEC Order_diy @CustomerID = 'D25887', @OrderID = @OrderID, @ProductID = 1, @Quantity = 1, @Customization = N'去酸黃瓜';
+EXEC Order_diy @CustomerID = 'Y69', @OrderID = @OrderID, @ProductID = 1, @Quantity = 1, @Customization = N'去酸黃瓜';
 
 --7 加點（辣味四盎司，ID = 4）
-EXEC Order_meal @CustomerID = 'D25887', @OrderID = @OrderID, @ProductID = 4, @Quantity = 1;
+EXEC Order_meal @CustomerID = 'Y69', @OrderID = @OrderID, @ProductID = 4, @Quantity = 1;
 
 --8 再加點（雙層四盎司分享盒，ID = 3）
-EXEC Order_update @CustomerID = 'D25887', @OrderID = @OrderID, @ProductID = 3, @Quantity = 1;
+EXEC Order_update @CustomerID = 'Y69', @OrderID = @OrderID, @ProductID = 3, @Quantity = 1;
 
 --9 查詢狀態
-EXEC Order_status @CustomerID = 'D25887', @OrderID = @OrderID;
+EXEC Order_status @CustomerID = 'Y69', @OrderID = @OrderID;
 
 -- 顯示明細
 SELECT OD.*, P.ItemName
@@ -281,6 +282,3 @@ SELECT * FROM Orders WHERE OrderID = @OrderID;
 
 -- 顯示優惠券
 SELECT * FROM Coupons;
-
-
-hfdjsaklfjdksal;
